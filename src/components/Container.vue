@@ -6,7 +6,7 @@
       </span>
     </div>
 
-    <button class="btn btn-block btn-light" type="button" @click="toggleDropdown">
+    <button class="form-control" type="button" @click="toggleDropdown">
       {{ buttonText }} <i class="fa" :class="caretClass"></i>
     </button>
     <dropdown-select v-if="dropdownShow" :container="$refs.container" @hide="hidden"></dropdown-select>
