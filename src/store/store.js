@@ -11,6 +11,7 @@ export default {
         options: {},
         selectedItems: [], // this is for multiple select
         selectedItem: null, // this is for non multiple select
+        hoveredItemIndex: null, // for hovering item by pressing arrow button on keyboard
         keyword: null,
         isMultiple: false
       },
@@ -22,6 +23,9 @@ export default {
 
           return state.selectedItem && state.selectedItem.value === item.value
         },
+        isHovered: (state, getters) => item => {
+          return getters.hoveredItem && getters.hoveredItem.value === item.value
+        }, 
         items: state => {
           return state.items.filter(item => {
             if (state.keyword) {
@@ -30,6 +34,13 @@ export default {
 
             return true
           })
+        },
+        hoveredItem: (state, getters) => {
+          if (state.hoveredItemIndex === null) {
+            return null;
+          }
+
+          return getters.items[state.hoveredItemIndex]
         }
       },
       mutations: {
@@ -68,6 +79,9 @@ export default {
         },
         SET_SELECTED_ITEMS (state, selectedItems) {
           state.selectedItems = selectedItems
+        },
+        SET_HOVERED_ITEM_INDEX (state, index) {
+          state.hoveredItemIndex = index
         }
       }
     })

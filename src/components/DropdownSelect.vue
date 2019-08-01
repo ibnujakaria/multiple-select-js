@@ -6,10 +6,11 @@
     <ul class="list-group mt-0" ref="listGroup">
       <li
         class="list-group-item d-flex flex-row justify-content-between p-2 rounded-0"
-        :class="{ 'list-group-item-primary': isSelected(item) }"
+        :class="getItemClasses(item)"
         v-for="(item, i) of items"
         :key="i"
         @click="selectItem(item)"
+        @mouseenter="setHoveredItemIndex(i)"
       >
         {{ item.label }}
 
@@ -25,8 +26,8 @@ import { mapState, mapMutations, mapGetters } from 'vuex'
 export default {
   props: ['container'],
   computed: {
-    ...mapGetters(['items']),
-    ...mapState(['isMultiple']),
+    ...mapGetters(['items', 'hoveredItem']),
+    ...mapState(['isMultiple', 'hoveredItemIndex']),
     keyword: {
       get () {
         return this.$store.state.keyword
@@ -38,18 +39,25 @@ export default {
   },
   mounted () {
     this.setMaxHeight()
-    this.$el.focus()
+    this.$refs.input.focus()
     document.addEventListener('click', this.hideWhenClickOutside)
     document.addEventListener('keyup', this.hideWhenPressEscape)
+    document.addEventListener('keyup', this.navigateBetweenItems)
+    document.addEventListener('keyup', this.whenClickEnter)
   },
   beforeDestroy () {
     document.removeEventListener('click', this.hideWhenClickOutside)
     document.removeEventListener('keyup', this.hideWhenPressEscape)
+    document.removeEventListener('keyup', this.navigateBetweenItems)
+    document.removeEventListener('keyup', this.whenClickEnter)
   },
   updated () {
     this.setMaxHeight()
   },
   methods: {
+    ...mapMutations({
+      setHoveredItemIndex: 'SET_HOVERED_ITEM_INDEX'
+    }),
     selectItem (item) {
       this.$store.commit('SELECT_ITEM', item)
 
@@ -68,14 +76,48 @@ export default {
       console.log({ maxHeight })
       this.$refs.listGroup.style.maxHeight = `${maxHeight}px`
     },
+    getItemClasses (item) {
+      return {
+        'list-group-item-primary': this.isSelected(item),
+        'hover': this.$store.getters.isHovered(item)
+      }
+    },
     hideWhenClickOutside (e) {
       if (!this.container.contains(e.target)) {
         this.$emit('hide')
       }
     },
     hideWhenPressEscape (e) {
-      if (e.code === 'Escape') {
+      if (e.key === 'Escape') {
         this.$emit('hide')
+      }
+    },
+    whenClickEnter (e) {
+      if (e.key === 'Enter') {
+        this.selectItem(this.hoveredItem)
+      }
+    },
+    navigateBetweenItems (e) {
+      if (e.key === 'ArrowUp') {
+        if (this.hoveredItem === null) {
+          this.setHoveredItemIndex(this.items.length - 1)
+        } else if (this.hoveredItemIndex > 0) {
+          this.setHoveredItemIndex(this.hoveredItemIndex - 1)
+        }
+      } else if (e.key === 'ArrowDown') {
+        if (this.hoveredItem === null) {
+          this.setHoveredItemIndex(this.items.length ? 0 : null)
+        } else if (this.hoveredItemIndex < this.items.length - 1) {
+          this.setHoveredItemIndex(this.hoveredItemIndex + 1)
+        }
+      }
+    }
+  },
+  watch: {
+    items (items) {
+      // when items are change, set the hovered item to null
+      if (this.hoveredItem) {
+        this.setHoveredItemIndex(null)
       }
     }
   }
@@ -102,8 +144,14 @@ export default {
       border-left: none;
       border-right: none;
 
-      &:not(.list-group-item-primary):hover {
-        background-color: rgba(220, 220, 220, 0.3);
+      &:not(.list-group-item-primary) {
+        &:hover, &.hover {
+          background-color: rgba(220, 220, 220, 0.3);
+        }
+      }
+
+      &:hover, &.hover {
+        font-weight: bold;
       }
     }
   }
