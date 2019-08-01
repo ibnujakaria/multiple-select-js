@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
     ['multiple-select']: './src/MultipleSelect.js',
     app: './src/app.js'
@@ -31,7 +31,7 @@ module.exports = {
       chunkFilename: '[id].css',
     }),
     new HtmlWebpackPlugin({
-      template: './src/docs/index.html'
+      template: './src/index.html'
     })
   ],
   module: {
