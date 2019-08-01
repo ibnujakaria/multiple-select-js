@@ -1,7 +1,7 @@
 <template>
   <div ref="container" class="multiple-select-container">
     <div>
-      <span class="badge badge-light mr-1 mb-2" v-for="item in selectedItems" :key="item.value">
+      <span class="badge badge-primary mr-1 mb-2" v-for="item in selectedItems" :key="item.value">
         {{ item.label }} <i @click="selectItem(item)" class="fa fa-times ml-2" style="cursor: pointer"></i>
       </span>
     </div>

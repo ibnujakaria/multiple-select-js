@@ -6,7 +6,7 @@
     <ul class="list-group mt-0" ref="listGroup">
       <li
         class="list-group-item d-flex flex-row justify-content-between p-2 rounded-0"
-        :class="{ 'list-group-item-info': isSelected(item) }"
+        :class="{ 'list-group-item-primary': isSelected(item) }"
         v-for="(item, i) of items"
         :key="i"
         @click="selectItem(item)"
@@ -40,9 +40,11 @@ export default {
     this.setMaxHeight()
     this.$el.focus()
     document.addEventListener('click', this.hideWhenClickOutside)
+    document.addEventListener('keyup', this.hideWhenPressEscape)
   },
   beforeDestroy () {
     document.removeEventListener('click', this.hideWhenClickOutside)
+    document.removeEventListener('keyup', this.hideWhenPressEscape)
   },
   updated () {
     this.setMaxHeight()
@@ -70,6 +72,11 @@ export default {
       if (!this.container.contains(e.target)) {
         this.$emit('hide')
       }
+    },
+    hideWhenPressEscape (e) {
+      if (e.code === 'Escape') {
+        this.$emit('hide')
+      }
     }
   }
 }
@@ -95,8 +102,8 @@ export default {
       border-left: none;
       border-right: none;
 
-      &:not(.list-group-item-info):hover {
-        background-color: rgba(200, 200, 200, 0.3);
+      &:not(.list-group-item-primary):hover {
+        background-color: rgba(220, 220, 220, 0.3);
       }
     }
   }
