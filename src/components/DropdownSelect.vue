@@ -124,7 +124,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .dropdown-select {
   position: absolute;
   z-index: 3;

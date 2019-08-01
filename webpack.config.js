@@ -27,11 +27,11 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: '[name].css',
+      filename: 'multiple-select.css',
       chunkFilename: '[id].css',
     }),
     new HtmlWebpackPlugin({
-      template: './src/index.html'
+      template: './src/docs/index.html'
     })
   ],
   module: {
