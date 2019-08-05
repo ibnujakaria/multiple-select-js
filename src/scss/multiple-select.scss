@@ -5,6 +5,7 @@
   outline: none;
   left: 0;
   right: 0;
+  display: none;
 
   &:focus {
     outline: none;
@@ -31,5 +32,11 @@
         }
       }
     }
+  }
+}
+
+.opened {
+  .dropdown-select {
+    display: block;
   }
 }

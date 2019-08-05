@@ -10,6 +10,15 @@ class Store extends EventEmitter {
     this._isMultiple = isMultiple
   }
 
+  get isOpened () {
+    return this._isOpened || false
+  }
+
+  set isOpened (isOpened) {
+    this._isOpened = isOpened
+    this.emit('isOpenedChange', isOpened)
+  }
+
   get items () {
     return this._items || []
   }
