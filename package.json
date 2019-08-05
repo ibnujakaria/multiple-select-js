@@ -1,7 +1,7 @@
 {
   "name": "multiple-select-js",
-  "version": "1.0.2",
-  "description": "Simple js library for multiple select html5",
+  "version": "1.2.0",
+  "description": "Simple js library for html5 multiple select",
   "main": "src/MultipleSelect.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

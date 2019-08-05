@@ -21,7 +21,7 @@ class MultipleSelect {
     this.$store.items = items
     this.$store.selectedItems = selectedItems
 
-    this._container = new Container({
+    this.$container = new Container({
       root: this
     })
 
@@ -35,6 +35,14 @@ class MultipleSelect {
         }
       })
     })
+
+    let observer = new MutationObserver(() => {
+      if (this.$el.classList.contains('opened')) {
+        this.$container.$dropdownSelect.$input.focus()
+      }
+    })
+
+    observer.observe(this.$el, { attributes: true, childList: true });
   }
 
   _buildRootElement (elId) {

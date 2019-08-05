@@ -13,7 +13,7 @@ class Container {
       this._rerenderButton()
     })
 
-    this.$root.$store.on('isOpenedChange', () => {
+    this.$root.$store.on('isOpenedChange', (isOpened) => {
       this._rerenderButton()
     })
 
@@ -64,10 +64,17 @@ class Container {
 
   _rerenderButton () {
     let selectedItems = this.$root.$store.selectedItems
+    let buttonText = null
 
+    if (this.$root.$store.isMultiple) {
+      buttonText = `${selectedItems.length} selected`
+    } else {
+      buttonText = selectedItems.length ?
+        selectedItems[0].label : (this.$root.$options.placeholder || 'Select')
+    }
     this.$button
       .querySelector('span.content')
-      .innerText = `${selectedItems.length} selected`
+      .innerText = buttonText
 
     if (this.$root.$store.isOpened) {
       this.$button

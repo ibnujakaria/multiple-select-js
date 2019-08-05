@@ -28,12 +28,12 @@ class DropdownSelect {
     this.$input.classList.add('form-control')
     this.$input.setAttribute('placeholder', 'Search')
     this.$input.setAttribute('type', 'text')
+    this.$input.setAttribute('autofocus', true)
     this.$input.addEventListener('keyup', (e) => {
       this.keyword = this.$input.value
       this._buildOptionItems()
       this._rerenderOptionsItems()
     })
-    this.$input.focus()
 
     let inputContainer = document.createElement('div')
     inputContainer.classList.add('p-2')
@@ -74,12 +74,23 @@ class DropdownSelect {
         let index = selectedItems.findIndex(item => item.value === currentTarget.getAttribute('value'))
 
         if (index > -1) {
-          store.selectedItems.splice(index, 1)
+          selectedItems.splice(index, 1)
         } else {
-          store.selectedItems.push({
-            value: currentTarget.getAttribute('value'),
-            label: currentTarget.innerText
-          })
+          if (store.isMultiple) {
+            selectedItems.push({
+              value: currentTarget.getAttribute('value'),
+              label: currentTarget.innerText
+            })
+          } else {
+            selectedItems = [{
+              value: currentTarget.getAttribute('value'),
+              label: currentTarget.innerText
+            }]
+
+            // close this dropdown
+            this.$container.$root.$el.classList.remove('opened')
+            this.$container.$root.$store.opened = false
+          }
         }
 
         store.selectedItems = selectedItems
