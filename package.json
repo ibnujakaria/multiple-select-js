@@ -22,7 +22,9 @@
     "url": "https://github.com/ibnujakaria/multiple-select-js/issues"
   },
   "homepage": "https://github.com/ibnujakaria/multiple-select-js#readme",
-  "dependencies": {},
+  "dependencies": {
+    "events": "^3.0.0"
+  },
   "devDependencies": {
     "autoprefixer": "^9.6.0",
     "clean-webpack-plugin": "^3.0.0",

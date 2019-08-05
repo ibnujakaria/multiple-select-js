@@ -1,0 +1,31 @@
+.dropdown-select {
+  position: absolute;
+  z-index: 3;
+  border: 1px solid rgba(220, 220, 220, 0.8);
+  outline: none;
+  left: 0;
+  right: 0;
+
+  &:focus {
+    outline: none;
+  }
+
+  ul {
+    overflow-y: auto;
+    li {
+      cursor: pointer;
+      border-left: none;
+      border-right: none;
+
+      &:not(.list-group-item-primary) {
+        &:hover, &.hover {
+          background-color: rgba(220, 220, 220, 0.3);
+        }
+      }
+
+      &:hover, &.hover {
+        font-weight: bold;
+      }
+    }
+  }
+}

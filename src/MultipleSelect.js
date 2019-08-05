@@ -1,96 +1,56 @@
-import Vue from 'vue'
-import Store from './store/store.js'
-import Container from './components/Container.vue'
+import Container from './components/Container'
+import Store from './store/Store'
+import './scss/multiple-select.scss'
 
 var selectMultipleContainerId = 0
 
 class MultipleSelect {
 
-  constructor(el, options) {
+  
+  constructor(elId, options) {
     selectMultipleContainerId++
-    
-    this.store = Store.build()
-    this._buildContainer(el, options)
-    
-    new Vue({
-      ...this._vueAppProperties(),
-      render: h => h(Container)
-    }).$mount(`#multiple-select-container-${selectMultipleContainerId}`)
+
+    this.$store = new Store()
+
+    let { el, select, isMultiple, items, selectedItems } = this._buildRootElement(elId)
+
+    this.$el = el
+    this.$select = select
+    this.$options = options
+    this.$store.isMultiple = isMultiple
+    this.$store.items = items
+    this.$store.selectedItems = selectedItems
+
+    this._container = new Container({
+      root: this
+    })
   }
 
-  _buildContainer (el, options) {
-    let dom = document.querySelector(el)
-    let select = dom.cloneNode(true)
+  _buildRootElement (elId) {
+    let select = document.querySelector(elId)
     let root = document.createElement('div')
     let items = []
     let selectedItems = []
 
-    dom.querySelectorAll('option:not([disabled])').forEach(option => {
+    root.setAttribute('id', `multiple-select-container-${selectMultipleContainerId}`)
+    root.style.position = 'relative'
+    
+    select.querySelectorAll('option:not([disabled])').forEach(option => {
       items.push({ value: option.value, label: option.innerText })
     })
 
     // get the already selected items
-    dom.querySelectorAll('option[selected]').forEach(option => {
+    select.querySelectorAll('option[selected]').forEach(option => {
       selectedItems.push({ value: option.value, label: option.innerText })
     })
 
     let isMultiple = select.getAttribute('multiple') !== null
-
-    console.log('isMultiple:', select, isMultiple)
-    root.setAttribute('id', `multiple-select-container-${selectMultipleContainerId}`)
-
-    this.store.commit('SET_IS_MULTIPLE', isMultiple)
-    this.store.commit('SET_ITEMS', items)
-    this.store.commit('SET_OPTIONS', options)
-
-    if (isMultiple) {
-      this.store.commit('SET_SELECTED_ITEMS', selectedItems)
-    } else {
-      this.store.commit('SET_SELECTED_ITEM', selectedItems[0])
-    }
     
-    dom.replaceWith(root)
-    root.prepend(select)
+    select.insertAdjacentElement('afterend', root)
+    // select.hidden = true
 
-    if (isMultiple) {
-      select.setAttribute('v-model', 'selectedItems')
-    } else {
-      select.setAttribute('v-model', 'selectedItem')
-    }
-    select.hidden = true
-  }
-
-  _vueAppProperties () {
     return {
-      mounted () {
-        console.log('MultipleSelect mounted()')
-        console.log(this.$el.classList)
-      },
-      computed: {
-        selectedItems: {
-          get () {
-            return this.$store.state.selectedItems.map(item => {
-              return item.value
-            })
-          },
-          set (value) {
-            // this.$store.commit('SELECT_ITEM')
-          }
-        },
-        selectedItem: {
-          get () {
-            if (!this.$store.state.selectedItem) {
-              return null
-            }
-
-            return this.$store.state.selectedItem.value
-          }
-        }
-      },
-      store: this.store,
-      methods: {
-      },
-      components: { Container }
+      select, el: root, isMultiple, items, selectedItems
     }
   }
 }

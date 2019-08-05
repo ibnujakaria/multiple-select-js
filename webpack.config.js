@@ -2,7 +2,6 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   mode: 'production',
@@ -23,7 +22,6 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -37,13 +35,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
-      {
         test: /\.scss$/,
         use: [
-          'vue-style-loader',
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
