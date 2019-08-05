@@ -24,6 +24,17 @@ class MultipleSelect {
     this._container = new Container({
       root: this
     })
+
+    // syncing with the actual select
+    this.$store.on('selectedItemsChange', (selectedItems) => {
+      this.$select.querySelectorAll('option').forEach(option => {
+        if (selectedItems.find(item => item.value === option.value)) {
+          option.setAttribute('selected', true)
+        } else {
+          option.removeAttribute('selected')
+        }
+      })
+    })
   }
 
   _buildRootElement (elId) {
