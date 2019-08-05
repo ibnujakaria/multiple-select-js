@@ -16,15 +16,19 @@
       cursor: pointer;
       border-left: none;
       border-right: none;
-
-      &:not(.list-group-item-primary) {
-        &:hover, &.hover {
-          background-color: rgba(220, 220, 220, 0.3);
+      
+      &:not(.list-group-item-secondary) {
+        &:not(.list-group-item-primary) {
+          &:hover, &.hover {
+            background-color: rgba(220, 220, 220, 0.3);
+          }
         }
-      }
 
-      &:hover, &.hover {
-        font-weight: bold;
+        &.list-group-item-primary {
+          &:hover, &.hover {
+            font-weight: bold;
+          }
+        }
       }
     }
   }
