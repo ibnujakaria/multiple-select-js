@@ -2,14 +2,16 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
+  devtool: 'source-map',
   entry: {
     ['multiple-select']: './src/MultipleSelect.js',
     app: './src/app.js'
   },
-  devtool: 'inline-source-map',
+  // devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
   },
@@ -28,9 +30,10 @@ module.exports = {
       filename: 'multiple-select.css',
       chunkFilename: '[id].css',
     }),
+    new CompressionPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html'
-    })
+    }),
   ],
   module: {
     rules: [
