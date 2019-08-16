@@ -26,8 +26,8 @@ import MultipleSelect from './MultipleSelect'
 
 ### Manually Download
 ```html
-<link href="https://unpkg.com/multiple-select-js/dist/css/multiple-select.css" rel="stylesheet">
-<script src="https://unpkg.com/multiple-select-js/dist/js/multiple-select.js"></script>
+<link href="/dist/css/multiple-select.css" rel="stylesheet">
+<script src="/dist/js/multiple-select.js"></script>
 ```
 
 ## Basic Usage
