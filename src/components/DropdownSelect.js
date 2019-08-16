@@ -29,6 +29,15 @@ class DropdownSelect {
     this.$input.setAttribute('placeholder', 'Search')
     this.$input.setAttribute('type', 'text')
     this.$input.setAttribute('autofocus', true)
+
+    // prevent default action if arrow up and down is pressed
+    this.$input.addEventListener('keydown', (e) => {
+      if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+        e.preventDefault()
+        return false
+      }
+    })
+
     this.$input.addEventListener('keyup', (e) => {
       this.keyword = this.$input.value
       this._buildOptionItems()
