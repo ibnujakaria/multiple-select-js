@@ -36,6 +36,8 @@ class MultipleSelect {
       })
     })
 
+    // when the container is done rendered, the dropdown
+    // will automatically focused
     let observer = new MutationObserver(() => {
       if (this.$el.classList.contains('opened')) {
         this.$container.$dropdownSelect.$input.focus()

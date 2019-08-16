@@ -8,6 +8,7 @@ class Container {
     this._buildButton()
     this._buildDropdownSelect()
     this._rerenderButton()
+    this._keyupEventListeners()
 
     this.$root.$store.on('selectedItemsChange', () => {
       this._rerenderButton()
@@ -16,12 +17,11 @@ class Container {
     this.$root.$store.on('isOpenedChange', (isOpened) => {
       this._rerenderButton()
     })
-
+    
     // exit on outside click
     document.addEventListener('click', (e) => {
       if (!this.$root.$el.contains(e.target)) {
         this.$root.$store.isOpened = false
-        this.$root.$el.classList.remove('opened')
       }
     })
   }
@@ -43,12 +43,6 @@ class Container {
 
     this.$button.addEventListener('click', (e) => {
       this.$root.$store.isOpened = !this.$root.$store.isOpened
-
-      if (this.$root.$store.isOpened) {
-        this.$root.$el.classList.add('opened')
-      } else {
-        this.$root.$el.classList.remove('opened')
-      }
     })
 
     this.$button.appendChild(content)
@@ -72,6 +66,7 @@ class Container {
       buttonText = selectedItems.length ?
         selectedItems[0].label : (this.$root.$options.placeholder || 'Select')
     }
+
     this.$button
       .querySelector('span.content')
       .innerText = buttonText
@@ -80,11 +75,23 @@ class Container {
       this.$button
         .querySelector('span.caret')
         .innerHTML = '&#9652;'
+      
+      this.$root.$el.classList.add('opened')
     } else {
       this.$button
         .querySelector('span.caret')
         .innerHTML = '&#9662;'
+      
+      this.$root.$el.classList.remove('opened')
     }
+  }
+
+  _keyupEventListeners () {
+    this.$root.$el.addEventListener('keyup', (e) => {
+      if (e.code === 'Escape') {
+        this.$root.$store.isOpened = false
+      }
+    })
   }
 }
 
