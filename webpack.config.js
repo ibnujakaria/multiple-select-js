@@ -19,7 +19,7 @@ module.exports = {
     usedExports: true
   },
   output: {
-    filename: 'assets/js/[name].js',
+    filename: 'js/[name].js',
     path: path.resolve(__dirname, 'dist')
   },
   plugins: [
@@ -27,7 +27,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: 'multiple-select.css',
+      filename: 'css/multiple-select.css',
       chunkFilename: '[id].css',
     }),
     new CompressionPlugin(),
