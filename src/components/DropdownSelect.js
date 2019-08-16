@@ -97,8 +97,7 @@ class DropdownSelect {
             }]
 
             // close this dropdown
-            this.$container.$root.$el.classList.remove('opened')
-            this.$container.$root.$store.opened = false
+            this.$container.$root.$store.isOpened = false
           }
         }
 
