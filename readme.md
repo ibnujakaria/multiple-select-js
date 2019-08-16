@@ -15,7 +15,7 @@ npm i multiple-select-js
 And then, simply import it using `es6` syntax.
 
 ```js
-import MultipleSelect from './MultipleSelect'
+import MultipleSelect from 'multiple-select-js'
 ```
 
 ### Using CDN
