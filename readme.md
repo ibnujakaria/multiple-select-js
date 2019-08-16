@@ -1,6 +1,6 @@
 # Multiple Select 
 
-A simple library javascript for multiple select component that supports Bootstrap 4 natively.
+A simple javascript library for multiple select component that supports Bootstrap 4 natively.
 
 ## Installation
 
@@ -36,7 +36,7 @@ For single select.
 ```html
 <div class="form-group">
   <label for="select-language">Single Select</label>
-  <select name="" id="select-language">
+  <select id="select-language">
     <option value="php">PHP</option>
     <option value="javascript">Javascript</option>
     <option value="python">Python</option>
@@ -56,7 +56,7 @@ For Multiple select you can simply add `multiple` attribute to the `select` tag.
 ```html
 <div class="form-group">
   <label for="select-language">Multiple Select</label>
-  <select name="" id="select-multiple-language" multiple>
+  <select id="select-multiple-language" multiple>
     <option value="php">PHP</option>
     <option value="javascript">Javascript</option>
     <option value="python">Python</option>
