@@ -1,4 +1,5 @@
 import DropdownSelect from "./DropdownSelect";
+import SelectButton from "./SelectButton";
 
 class Container {
 
@@ -7,15 +8,16 @@ class Container {
 
     this._buildButton()
     this._buildDropdownSelect()
-    this._rerenderButton()
+    this.$button.render()
     this._keyupEventListeners()
 
     this.$root.$store.on('selectedItemsChange', () => {
-      this._rerenderButton()
+      this.$button.render()
     })
 
     this.$root.$store.on('isOpenedChange', (isOpened) => {
-      this._rerenderButton()
+      this.$button.render()
+      this._toggleDropdown()
     })
     
     // exit on outside click
@@ -27,27 +29,8 @@ class Container {
   }
 
   _buildButton () {
-    this.$button = document.createElement('button')
-    this.$button.classList.add(
-      'form-control', 'd-flex', 'justify-content-between', 'align-items-center'
-    )
-
-    let content = document.createElement('span')
-    content.setAttribute('class', 'content')
-    content.innerText = this.$root.$options.placeholder || 'Select'
-
-    let caret = document.createElement('span')
-    caret.classList.add('caret')
-    caret.innerHTML = '&#9662;'
-    caret.style.fontSize = '70%'
-
-    this.$button.addEventListener('click', (e) => {
-      this.$root.$store.isOpened = !this.$root.$store.isOpened
-    })
-
-    this.$button.appendChild(content)
-    this.$button.appendChild(caret)
-    this.$root.$el.appendChild(this.$button)
+    this.$button = new SelectButton({ root: this.$root })
+    this.$root.$el.appendChild(this.$button.el)
   }
 
   _buildDropdownSelect () {
@@ -56,32 +39,10 @@ class Container {
     })
   }
 
-  _rerenderButton () {
-    let selectedItems = this.$root.$store.selectedItems
-    let buttonText = null
-
-    if (this.$root.$store.isMultiple && selectedItems.length) {
-      buttonText = `${selectedItems.length} selected`
-    } else {
-      buttonText = selectedItems.length ?
-        selectedItems[0].label : (this.$root.$options.placeholder || 'Select')
-    }
-
-    this.$button
-      .querySelector('span.content')
-      .innerText = buttonText
-
+  _toggleDropdown () {
     if (this.$root.$store.isOpened) {
-      this.$button
-        .querySelector('span.caret')
-        .innerHTML = '&#9652;'
-      
       this.$root.$el.classList.add('opened')
     } else {
-      this.$button
-        .querySelector('span.caret')
-        .innerHTML = '&#9662;'
-      
       this.$root.$el.classList.remove('opened')
     }
   }
