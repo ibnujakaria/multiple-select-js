@@ -10,13 +10,15 @@ class MultipleSelect {
   constructor(elId, options) {
     selectMultipleContainerId++
 
+    const defaultOptions = {
+      placeholder: 'Select'
+    }
+
     this.$store = new Store()
-
     let { el, select, isMultiple, items, selectedItems } = this._buildRootElement(elId)
-
     this.$el = el
     this.$select = select
-    this.$options = options
+    this.$options = { ...defaultOptions, ...options }
     this.$store.isMultiple = isMultiple
     this.$store.items = items
     this.$store.selectedItems = selectedItems

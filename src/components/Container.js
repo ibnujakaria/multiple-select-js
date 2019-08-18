@@ -60,7 +60,7 @@ class Container {
     let selectedItems = this.$root.$store.selectedItems
     let buttonText = null
 
-    if (this.$root.$store.isMultiple) {
+    if (this.$root.$store.isMultiple && selectedItems.length) {
       buttonText = `${selectedItems.length} selected`
     } else {
       buttonText = selectedItems.length ?
