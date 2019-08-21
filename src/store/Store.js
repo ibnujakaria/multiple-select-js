@@ -36,6 +36,20 @@ class Store extends EventEmitter {
     this._selectedItems = selectedItems
     this.emit('selectedItemsChange', selectedItems)
   }
+
+  /**
+   * Keyword for filtering purpose
+   *
+   * @memberof Store
+   */
+  get keyword () {
+    return this._keyword || null
+  }
+
+  set keyword (keyword) {
+    this._keyword = keyword
+    this.emit('keywordChange', keyword)
+  }
 }
 
 export default Store

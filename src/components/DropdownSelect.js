@@ -1,3 +1,5 @@
+import SearchInput from "./SearchInput";
+
 class DropdownSelect {
   constructor ({ container }) {
     this.$container = container
@@ -20,35 +22,21 @@ class DropdownSelect {
       'shadow'
     )
 
+    this.$container.$root.$store.on('keywordChange', (keyword) => {
+      this.keyword = keyword
+      this._buildOptionItems()
+      this._rerenderOptionsItems()
+
+      console.log('keyword change')
+    })
+
     this.$container.$root.$el.appendChild(this.$dropdownSelect)
   }
 
   _buildSearchInput () {
-    this.$input = document.createElement('input')
-    this.$input.classList.add('form-control')
-    this.$input.setAttribute('placeholder', 'Search')
-    this.$input.setAttribute('type', 'text')
-    this.$input.setAttribute('autofocus', true)
-
-    // prevent default action if arrow up and down is pressed
-    this.$input.addEventListener('keydown', (e) => {
-      if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
-        e.preventDefault()
-        return false
-      }
-    })
-
-    this.$input.addEventListener('keyup', (e) => {
-      this.keyword = this.$input.value
-      this._buildOptionItems()
-      this._rerenderOptionsItems()
-    })
-
-    let inputContainer = document.createElement('div')
-    inputContainer.classList.add('p-2')
-    inputContainer.appendChild(this.$input)
-    
-    this.$dropdownSelect.appendChild(inputContainer)
+    this.$input = new SearchInput({ root: this.$container.$root, dropdownSelect: this })
+    this.$dropdownSelect.appendChild(this.$input.el)
+    this.$input.render()
   }
 
   _buildOptionItems () {
