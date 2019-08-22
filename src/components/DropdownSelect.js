@@ -26,8 +26,11 @@ class DropdownSelect {
       this.keyword = keyword
       this._buildOptionItems()
       this._rerenderOptionsItems()
+    })
 
-      console.log('keyword change')
+    this.$container.$root.$store.on('hoveredItemIndexChange', index => {
+      console.log('hovered item index', index)
+      this._rerenderOptionsItems()
     })
 
     this.$container.$root.$el.appendChild(this.$dropdownSelect)
@@ -57,7 +60,7 @@ class DropdownSelect {
       listGroup.removeChild(listGroup.lastChild)
     }
 
-    this.filteredItems.forEach(item => {
+    this.filteredItems.forEach((item, i) => {
       let itemDom = document.createElement('li')
       itemDom.classList.add(
         'list-group-item', 'd-flex', 'flex-row',
@@ -65,6 +68,7 @@ class DropdownSelect {
       )
       itemDom.setAttribute('value', item.value)
       itemDom.innerText = item.label
+
       itemDom.addEventListener('click', (e) => {
         let selectedItems = store.selectedItems
         let currentTarget = e.currentTarget
@@ -113,12 +117,19 @@ class DropdownSelect {
   _rerenderOptionsItems () {
     let store = this.$container.$root.$store
 
-    this.$optionItems.forEach(itemDom => {
+    this.$optionItems.forEach((itemDom, i) => {
       // is selected
       if (store.selectedItems.find(item => item.value === itemDom.getAttribute('value'))) {
         itemDom.classList.add('list-group-item-primary')
       } else {
         itemDom.classList.remove('list-group-item-primary')
+      }
+
+      // if this item is hovered
+      if (i === this.$container.$root.$store.hoveredItemIndex) {
+        itemDom.classList.add('hover')
+      } else {
+        itemDom.classList.remove('hover')
       }
     })
   }

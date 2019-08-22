@@ -48,7 +48,26 @@ class Store extends EventEmitter {
 
   set keyword (keyword) {
     this._keyword = keyword
+    this._hoveredItemIndex = null
     this.emit('keywordChange', keyword)
+  }
+
+  /**
+   * Hovered item. Working by pressing arrow up and down
+   *
+   * @memberof Store
+   */
+  get hoveredItemIndex () {
+    if (!this._hoveredItemIndex && this._hoveredItemIndex !== 0) {
+      return null
+    }
+
+    return this._hoveredItemIndex
+  }
+
+  set hoveredItemIndex (index) {
+    this._hoveredItemIndex = index
+    this.emit('hoveredItemIndexChange', index)
   }
 }
 

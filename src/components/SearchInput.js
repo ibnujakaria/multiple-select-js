@@ -36,15 +36,33 @@ class SearchInput {
 
   _registerEventListeners () {
     // prevent default action if arrow up and down is pressed
+    // navigating between options
     this._input.addEventListener('keydown', (e) => {
       if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
         e.preventDefault()
+
+        if (e.code === 'ArrowUp') {
+          if (this.$root.$store.hoveredItemIndex === null) {
+            this.$root.$store.hoveredItemIndex = this.$root.$store.items.length - 1
+          } else if (this.$root.$store.hoveredItemIndex > 0) {
+            this.$root.$store.hoveredItemIndex--
+          }
+        } else if (e.code === 'ArrowDown') {
+          if (this.$root.$store.hoveredItemIndex === null) {
+            this.$root.$store.hoveredItemIndex = 0
+          } else if (this.$root.$store.hoveredItemIndex < this.$root.$store.items.length - 1) {
+            this.$root.$store.hoveredItemIndex++
+          }
+        }
+        
         return false
       }
     })
 
     this._input.addEventListener('keyup', (e) => {
-      this.$root.$store.keyword = this._input.value
+      if (e.code !== 'ArrowUp' && e.code !== 'ArrowDown') {
+        this.$root.$store.keyword = this._input.value
+      }
     })
   }
 
