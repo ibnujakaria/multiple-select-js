@@ -35,10 +35,10 @@ class SearchInput {
   }
 
   _registerEventListeners () {
-    // prevent default action if arrow up and down is pressed
+    // prevent default action for some key when pressed
     // navigating between options
     this._input.addEventListener('keydown', (e) => {
-      if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+      if (e.code === 'ArrowUp' || e.code === 'ArrowDown' || e.code === 'Enter') {
         e.preventDefault()
 
         if (e.code === 'ArrowUp') {
@@ -62,6 +62,32 @@ class SearchInput {
     this._input.addEventListener('keyup', (e) => {
       if (e.code !== 'ArrowUp' && e.code !== 'ArrowDown') {
         this.$root.$store.keyword = this._input.value
+      } 
+      
+      // toggle select option
+      if (e.code === 'Enter') {
+        if (this.$root.$store.hoveredItemIndex !== null) {
+          let selectedItem = this.$root.$store.filteredItems[this.$root.$store.hoveredItemIndex]
+          let selectedItems = this.$root.$store.selectedItems
+          let index = selectedItems.findIndex(_selectedItem => _selectedItem.value === selectedItem.value)
+
+          if (index > -1) {
+            selectedItems.splice(index, 1)
+          } else {
+            if (this.$root.$store.isMultiple) {
+              selectedItems.push(selectedItem)
+            } else {
+              selectedItems = [selectedItem]
+
+              // close the dropdown because it is not `<select multiple>`
+              this.$root.$store.isOpened = false
+            }
+          }
+
+          this.$root.$store.selectedItems = selectedItems
+          
+          console.log(selectedItem, { index })
+        }
       }
     })
   }

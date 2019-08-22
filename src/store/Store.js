@@ -28,6 +28,16 @@ class Store extends EventEmitter {
     this.emit('itemsChange', items)
   }
 
+  get filteredItems () {
+    return this._items.filter(item => {
+      if (this._keyword) {
+        return item.label.toLowerCase().includes(this._keyword.toLowerCase())
+      }
+
+      return true
+    })
+  }
+
   get selectedItems () {
     return this._selectedItems || []
   }
@@ -47,9 +57,11 @@ class Store extends EventEmitter {
   }
 
   set keyword (keyword) {
-    this._keyword = keyword
-    this._hoveredItemIndex = null
-    this.emit('keywordChange', keyword)
+    if (keyword && this._keyword !== keyword) {
+      this._keyword = keyword
+      this._hoveredItemIndex = null
+      this.emit('keywordChange', keyword)
+    }
   }
 
   /**

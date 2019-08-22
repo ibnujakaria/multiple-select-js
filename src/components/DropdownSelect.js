@@ -6,7 +6,6 @@ class DropdownSelect {
     this.$dropdownSelect = null
     this.$input = null
     this.$optionItems = []
-    this.keyword = null
 
     this._buildDropdownSelect()
     this._buildSearchInput()
@@ -22,8 +21,12 @@ class DropdownSelect {
       'shadow'
     )
 
-    this.$container.$root.$store.on('keywordChange', (keyword) => {
-      this.keyword = keyword
+    this.$container.$root.$store.on('keywordChange', () => {
+      this._buildOptionItems()
+      this._rerenderOptionsItems()
+    })
+
+    this.$container.$root.$store.on('selectedItemsChange', () => {
       this._buildOptionItems()
       this._rerenderOptionsItems()
     })
@@ -135,13 +138,7 @@ class DropdownSelect {
   }
 
   get filteredItems () {
-    return this.$container.$root.$store.items.filter(item => {
-      if (this.keyword) {
-        return item.label.toLowerCase().includes(this.keyword.toLowerCase())
-      }
-
-      return true
-    })
+    return this.$container.$root.$store.filteredItems
   }
 }
 
