@@ -20,6 +20,10 @@ import MultipleSelect from 'multiple-select-js'
 
 ### Using CDN
 ```html
+<!-- Bootstrap 4 -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Multiple Select JS -->
 <link href="https://unpkg.com/multiple-select-js/dist/css/multiple-select.css" rel="stylesheet">
 <script src="https://unpkg.com/multiple-select-js/dist/js/multiple-select.js"></script>
 ```
@@ -60,7 +64,7 @@ For Multiple select you can simply add `multiple` attribute to the `select` tag.
     <option value="php">PHP</option>
     <option value="javascript">Javascript</option>
     <option value="python">Python</option>
-    <option value="java" selected>Java</option>
+    <option value="java">Java</option>
   </select>
 </div>
 ```
