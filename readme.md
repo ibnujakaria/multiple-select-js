@@ -1,3 +1,9 @@
+[![](https://img.shields.io/npm/v/multiple-select-js)](https://www.npmjs.com/package/multiple-select-js)
+[![](https://img.shields.io/npm/dt/multiple-select-js)](https://www.npmjs.com/package/multiple-select-js)
+[![](https://img.shields.io/github/size/ibnujakaria/multiple-select-js/dist/js/multiple-select.js)]()
+[![](https://img.shields.io/github/release-date/ibnujakaria/multiple-select-js)](https://github.com/ibnujakaria/multiple-select-js/)
+[![](https://img.shields.io/npm/l/multiple-select-js)](https://www.npmjs.com/package/multiple-select-js)
+
 # Multiple Select 
 
 A simple javascript library for multiple select component that supports Bootstrap 4 natively.
