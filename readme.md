@@ -1,5 +1,6 @@
 [![](https://img.shields.io/npm/v/multiple-select-js)](https://www.npmjs.com/package/multiple-select-js)
 [![](https://img.shields.io/npm/dt/multiple-select-js)](https://www.npmjs.com/package/multiple-select-js)
+[![](https://img.shields.io/jsdelivr/npm/hm/multiple-select-js)](https://www.npmjs.com/package/multiple-select-js)
 [![](https://img.shields.io/github/size/ibnujakaria/multiple-select-js/dist/js/multiple-select.js)]()
 [![](https://img.shields.io/github/release-date/ibnujakaria/multiple-select-js)](https://github.com/ibnujakaria/multiple-select-js/)
 [![](https://img.shields.io/npm/l/multiple-select-js)](https://www.npmjs.com/package/multiple-select-js)
@@ -30,8 +31,8 @@ import MultipleSelect from 'multiple-select-js'
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <!-- Multiple Select JS -->
-<link href="https://unpkg.com/multiple-select-js/dist/css/multiple-select.css" rel="stylesheet">
-<script src="https://unpkg.com/multiple-select-js/dist/js/multiple-select.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/multiple-select-js/dist/css/multiple-select.css">
+<script src="https://cdn.jsdelivr.net/npm/multiple-select-js/dist/js/multiple-select.js"></script>
 ```
 
 ### Manually Download

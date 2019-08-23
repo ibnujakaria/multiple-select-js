@@ -9,6 +9,7 @@ class SelectButton {
     this._button.classList.add(
       'form-control', 'd-flex', 'justify-content-between', 'align-items-center'
     )
+    this._button.setAttribute('type', 'button')
 
     let content = document.createElement('span')
     content.setAttribute('class', 'content')
