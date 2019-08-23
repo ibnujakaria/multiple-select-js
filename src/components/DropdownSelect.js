@@ -27,7 +27,7 @@ class DropdownSelect {
     })
 
     this.$container.$root.$store.on('selectedItemsChange', () => {
-      this._buildOptionItems()
+      // this._buildOptionItems()
       this._rerenderOptionsItems()
     })
 

@@ -67,7 +67,7 @@ class MultipleSelect {
       selectedItems.push({ value: option.value, label: option.innerText })
     })
 
-    let isMultiple = select.getAttribute('multiple') !== null
+    let isMultiple = select.multiple
     
     select.insertAdjacentElement('afterend', root)
     select.hidden = true

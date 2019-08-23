@@ -630,7 +630,7 @@ class MultipleSelect {
       selectedItems.push({ value: option.value, label: option.innerText })
     })
 
-    let isMultiple = select.getAttribute('multiple') !== null
+    let isMultiple = select.multiple
     
     select.insertAdjacentElement('afterend', root)
     select.hidden = true
@@ -682,6 +682,10 @@ class Container {
     
     // exit on outside click
     document.addEventListener('click', (e) => {
+      if (!this.$root.$store.isOpened) {
+        return
+      }
+
       if (!this.$root.$el.contains(e.target)) {
         this.$root.$store.isOpened = false
       }
@@ -759,7 +763,7 @@ class DropdownSelect {
     })
 
     this.$container.$root.$store.on('selectedItemsChange', () => {
-      this._buildOptionItems()
+      // this._buildOptionItems()
       this._rerenderOptionsItems()
     })
 
@@ -1160,8 +1164,8 @@ class Store extends events__WEBPACK_IMPORTED_MODULE_0___default.a {
   }
 
   set keyword (keyword) {
-    if (keyword && this._keyword !== keyword) {
-      this._keyword = keyword
+    if (this._keyword !== keyword.trim()) {
+      this._keyword = keyword.trim()
       this._hoveredItemIndex = null
       this.emit('keywordChange', keyword)
     }

@@ -57,8 +57,8 @@ class Store extends EventEmitter {
   }
 
   set keyword (keyword) {
-    if (keyword && this._keyword !== keyword) {
-      this._keyword = keyword
+    if (this._keyword !== keyword.trim()) {
+      this._keyword = keyword.trim()
       this._hoveredItemIndex = null
       this.emit('keywordChange', keyword)
     }

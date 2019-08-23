@@ -22,6 +22,10 @@ class Container {
     
     // exit on outside click
     document.addEventListener('click', (e) => {
+      if (!this.$root.$store.isOpened) {
+        return
+      }
+
       if (!this.$root.$el.contains(e.target)) {
         this.$root.$store.isOpened = false
       }
