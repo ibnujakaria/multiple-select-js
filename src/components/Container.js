@@ -1,4 +1,4 @@
-import DropdownSelect from "./DropdownSelect";
+import DropdownSelect from "./dropdown/DropdownSelect";
 import SelectButton from "./SelectButton";
 
 class Container {

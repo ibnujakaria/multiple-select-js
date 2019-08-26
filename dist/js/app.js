@@ -688,7 +688,7 @@ new _MultipleSelect__WEBPACK_IMPORTED_MODULE_0__["default"]('#select-multiple-la
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _DropdownSelect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DropdownSelect */ "./src/components/DropdownSelect.js");
+/* harmony import */ var _dropdown_DropdownSelect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dropdown/DropdownSelect */ "./src/components/dropdown/DropdownSelect.js");
 /* harmony import */ var _SelectButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectButton */ "./src/components/SelectButton.js");
 
 
@@ -730,7 +730,7 @@ class Container {
   }
 
   _buildDropdownSelect () {
-    this.$dropdownSelect = new _DropdownSelect__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]({
+    this.$dropdownSelect = new _dropdown_DropdownSelect__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]({
       container: this
     })
   }
@@ -753,171 +753,6 @@ class Container {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Container);
-
-/***/ }),
-
-/***/ "./src/components/DropdownSelect.js":
-/*!******************************************!*\
-  !*** ./src/components/DropdownSelect.js ***!
-  \******************************************/
-/*! exports provided: default */
-/*! exports used: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _SearchInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SearchInput */ "./src/components/SearchInput.js");
-
-
-class DropdownSelect {
-  constructor ({ container }) {
-    this.$container = container
-    this.$dropdownSelect = null
-    this.$input = null
-    this.$optionItems = []
-
-    this._buildDropdownSelect()
-    this._buildSearchInput()
-    this._buildOptionItems()
-    this._rerenderOptionsItems()
-  }
-
-  _buildDropdownSelect () {
-    this.$dropdownSelect = document.createElement('div')
-    this.$dropdownSelect.classList.add(
-      'dropdown-select',
-      'bg-white',
-      'shadow'
-    )
-
-    this.$container.$root.$store.on('keywordChange', () => {
-      this._buildOptionItems()
-      this._rerenderOptionsItems()
-    })
-
-    this.$container.$root.$store.on('selectedItemsChange', () => {
-      this._rerenderOptionsItems()
-    })
-
-    this.$container.$root.$store.on('hoveredItemIndexChange', index => {
-      console.log('hovered item index', index)
-      this._rerenderOptionsItems()
-    })
-
-    this.$container.$root.$el.appendChild(this.$dropdownSelect)
-  }
-
-  _buildSearchInput () {
-    this.$input = new _SearchInput__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]({ root: this.$container.$root, dropdownSelect: this })
-    this.$dropdownSelect.appendChild(this.$input.el)
-    this.$input.render()
-  }
-
-  _buildOptionItems () {
-    let store = this.$container.$root.$store
-    let listGroup = this.$dropdownSelect.querySelector('.list-group')
-    
-    this.$optionItems = []
-    
-    if (!listGroup) {
-      listGroup = document.createElement('ul')
-      listGroup.classList.add('list-group', 'mt-0')
-  
-      this.$dropdownSelect.appendChild(listGroup)
-    }
-
-    // clear option
-    while (listGroup.lastChild) {
-      listGroup.removeChild(listGroup.lastChild)
-    }
-
-    this.filteredItems.forEach((item, i) => {
-      let itemDom = document.createElement('li')
-
-      
-      itemDom.classList.add(
-        'list-group-item', 'd-flex', 'flex-row',
-        'justify-content-between', 'p-2', 'rounded-0'
-      )
-      
-      if (item.disabled) {
-        itemDom.classList.add('disabled')
-      }
-
-      itemDom.setAttribute('value', item.value)
-      itemDom.innerText = item.label
-
-      itemDom.addEventListener('click', (e) => {
-        let selectedItems = store.selectedItems
-        let currentTarget = e.currentTarget
-        let index = selectedItems.findIndex(item => item.value === currentTarget.getAttribute('value'))
-
-        if (index > -1) {
-          selectedItems.splice(index, 1)
-        } else {
-          if (store.isMultiple) {
-            selectedItems.push({
-              value: currentTarget.getAttribute('value'),
-              label: currentTarget.innerText
-            })
-          } else {
-            selectedItems = [{
-              value: currentTarget.getAttribute('value'),
-              label: currentTarget.innerText
-            }]
-
-            // close this dropdown
-            this.$container.$root.$store.isOpened = false
-          }
-        }
-
-        store.selectedItems = selectedItems
-        this._rerenderOptionsItems()
-        this.$input.focus()
-      })
-
-      this.$optionItems.push(itemDom)
-      listGroup.appendChild(itemDom)
-    })
-
-    // if no result
-    if (this.filteredItems.length < 1) {
-      let itemDom = document.createElement('li')
-      itemDom.classList.add(
-        'list-group-item', 'd-flex', 'flex-row',
-        'justify-content-between', 'p-2', 'rounded-0',
-        'list-group-item-secondary'
-      )
-      itemDom.innerText = 'No items.'
-      listGroup.appendChild(itemDom)
-    }
-  }
-
-  _rerenderOptionsItems () {
-    let store = this.$container.$root.$store
-
-    this.$optionItems.forEach((itemDom, i) => {
-      // is selected
-      if (store.selectedItems.find(item => item.value === itemDom.getAttribute('value'))) {
-        itemDom.classList.add('list-group-item-primary')
-      } else {
-        itemDom.classList.remove('list-group-item-primary')
-      }
-
-      // if this item is hovered
-      if (i === this.$container.$root.$store.hoveredItemIndex) {
-        itemDom.classList.add('hover')
-      } else {
-        itemDom.classList.remove('hover')
-      }
-    })
-  }
-
-  get filteredItems () {
-    return this.$container.$root.$store.filteredItems
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (DropdownSelect);
 
 /***/ }),
 
@@ -1119,6 +954,216 @@ class SelectButton {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (SelectButton);
+
+/***/ }),
+
+/***/ "./src/components/dropdown/DropdownSelect.js":
+/*!***************************************************!*\
+  !*** ./src/components/dropdown/DropdownSelect.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _SearchInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../SearchInput */ "./src/components/SearchInput.js");
+/* harmony import */ var _Item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Item */ "./src/components/dropdown/Item.js");
+
+
+
+class DropdownSelect {
+  constructor ({ container }) {
+    this.$container = container
+    this.$dropdownSelect = null
+    this.$input = null
+    this.$optionItems = []
+
+    this._buildDropdownSelect()
+    this._buildSearchInput()
+    this._buildOptionItems()
+    this._rerenderOptionsItems()
+  }
+
+  _buildDropdownSelect () {
+    this.$dropdownSelect = document.createElement('div')
+    this.$dropdownSelect.classList.add(
+      'dropdown-select',
+      'bg-white',
+      'shadow'
+    )
+
+    this.$container.$root.$store.on('keywordChange', () => {
+      this._buildOptionItems()
+      this._rerenderOptionsItems()
+    })
+
+    this.$container.$root.$store.on('selectedItemsChange', () => {
+      this._rerenderOptionsItems()
+    })
+
+    this.$container.$root.$store.on('hoveredItemIndexChange', index => {
+      this._rerenderOptionsItems()
+    })
+
+    this.$container.$root.$el.appendChild(this.$dropdownSelect)
+  }
+
+  _buildSearchInput () {
+    this.$input = new _SearchInput__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]({ root: this.$container.$root, dropdownSelect: this })
+    this.$dropdownSelect.appendChild(this.$input.el)
+    this.$input.render()
+  }
+
+  _buildOptionItems () {
+    let listGroup = this.$dropdownSelect.querySelector('.list-group')
+    
+    this.$optionItems = []
+    
+    if (!listGroup) {
+      listGroup = document.createElement('ul')
+      listGroup.classList.add('list-group', 'mt-0')
+  
+      this.$dropdownSelect.appendChild(listGroup)
+    }
+
+    // clear option
+    while (listGroup.lastChild) {
+      listGroup.removeChild(listGroup.lastChild)
+    }
+
+    this.filteredItems.forEach((item, index) => {
+      let itemDom = new _Item__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({
+        root: this.$container.$root,
+        dropdownSelect: this,
+        item,
+        index
+      })
+
+      this.$optionItems.push(itemDom)
+      listGroup.appendChild(itemDom.el)
+    })
+
+    // if no result
+    if (this.filteredItems.length < 1) {
+      let itemDom = document.createElement('li')
+      itemDom.classList.add(
+        'list-group-item', 'd-flex', 'flex-row',
+        'justify-content-between', 'p-2', 'rounded-0',
+        'list-group-item-secondary'
+      )
+      itemDom.innerText = 'No items.'
+      listGroup.appendChild(itemDom)
+    }
+  }
+
+  _rerenderOptionsItems () {
+    this.$optionItems.forEach((itemDom) => {
+      itemDom.render()
+    })
+  }
+
+  get filteredItems () {
+    return this.$container.$root.$store.filteredItems
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (DropdownSelect);
+
+/***/ }),
+
+/***/ "./src/components/dropdown/Item.js":
+/*!*****************************************!*\
+  !*** ./src/components/dropdown/Item.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * Class for handling `<li>` element for item options.
+ *
+ * @class Item
+ */
+class Item {
+
+  constructor ({ root, dropdownSelect, item, index }) {
+    this.$root = root
+    this.$dropdownSelect = dropdownSelect
+    this._item = item
+    this._index = index
+
+    this.build()
+    this.render()
+  }
+
+  get el () {
+    return this._li
+  }
+
+  build () {
+    let store = this.$root.$store
+    this._li = document.createElement('li')
+      
+    this._li.classList.add(
+      'list-group-item', 'd-flex', 'flex-row',
+      'justify-content-between', 'p-2', 'rounded-0'
+    )
+    
+    if (this._item.disabled) {
+      this._li.classList.add('disabled')
+    }
+
+    this._li.setAttribute('value', this._item.value)
+    this._li.innerText = this._item.label
+
+    this._li.addEventListener('click', (e) => {
+      let selectedItems = store.selectedItems
+      let currentTarget = e.currentTarget
+      let selectedIndex = selectedItems.findIndex(item => item.value === currentTarget.getAttribute('value'))
+
+      if (selectedIndex > -1) {
+        selectedItems.splice(selectedIndex, 1)
+      } else {
+        if (store.isMultiple) {
+          selectedItems.push({
+            value: currentTarget.getAttribute('value'),
+            label: currentTarget.innerText
+          })
+        } else {
+          selectedItems = [{
+            value: currentTarget.getAttribute('value'),
+            label: currentTarget.innerText
+          }]
+
+          // close this dropdown
+          store.isOpened = false
+        }
+      }
+
+      store.selectedItems = selectedItems
+    })
+  }
+
+  render () {
+    let store = this.$root.$store
+    // is selected
+    if (store.selectedItems.find(item => item.value === this._li.getAttribute('value'))) {
+      this._li.classList.add('list-group-item-primary')
+    } else {
+      this._li.classList.remove('list-group-item-primary')
+    }
+
+    // if this item is hovered
+    if (this._index === store.hoveredItemIndex) {
+      this._li.classList.add('hover')
+    } else {
+      this._li.classList.remove('hover')
+    }
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Item);
 
 /***/ }),
 

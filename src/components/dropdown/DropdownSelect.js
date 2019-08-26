@@ -1,4 +1,5 @@
-import SearchInput from "./SearchInput";
+import SearchInput from "../SearchInput";
+import Item from "./Item";
 
 class DropdownSelect {
   constructor ({ container }) {
@@ -31,7 +32,6 @@ class DropdownSelect {
     })
 
     this.$container.$root.$store.on('hoveredItemIndexChange', index => {
-      console.log('hovered item index', index)
       this._rerenderOptionsItems()
     })
 
@@ -45,7 +45,6 @@ class DropdownSelect {
   }
 
   _buildOptionItems () {
-    let store = this.$container.$root.$store
     let listGroup = this.$dropdownSelect.querySelector('.list-group')
     
     this.$optionItems = []
@@ -62,53 +61,16 @@ class DropdownSelect {
       listGroup.removeChild(listGroup.lastChild)
     }
 
-    this.filteredItems.forEach((item, i) => {
-      let itemDom = document.createElement('li')
-
-      
-      itemDom.classList.add(
-        'list-group-item', 'd-flex', 'flex-row',
-        'justify-content-between', 'p-2', 'rounded-0'
-      )
-      
-      if (item.disabled) {
-        itemDom.classList.add('disabled')
-      }
-
-      itemDom.setAttribute('value', item.value)
-      itemDom.innerText = item.label
-
-      itemDom.addEventListener('click', (e) => {
-        let selectedItems = store.selectedItems
-        let currentTarget = e.currentTarget
-        let index = selectedItems.findIndex(item => item.value === currentTarget.getAttribute('value'))
-
-        if (index > -1) {
-          selectedItems.splice(index, 1)
-        } else {
-          if (store.isMultiple) {
-            selectedItems.push({
-              value: currentTarget.getAttribute('value'),
-              label: currentTarget.innerText
-            })
-          } else {
-            selectedItems = [{
-              value: currentTarget.getAttribute('value'),
-              label: currentTarget.innerText
-            }]
-
-            // close this dropdown
-            this.$container.$root.$store.isOpened = false
-          }
-        }
-
-        store.selectedItems = selectedItems
-        this._rerenderOptionsItems()
-        this.$input.focus()
+    this.filteredItems.forEach((item, index) => {
+      let itemDom = new Item({
+        root: this.$container.$root,
+        dropdownSelect: this,
+        item,
+        index
       })
 
       this.$optionItems.push(itemDom)
-      listGroup.appendChild(itemDom)
+      listGroup.appendChild(itemDom.el)
     })
 
     // if no result
@@ -125,22 +87,8 @@ class DropdownSelect {
   }
 
   _rerenderOptionsItems () {
-    let store = this.$container.$root.$store
-
-    this.$optionItems.forEach((itemDom, i) => {
-      // is selected
-      if (store.selectedItems.find(item => item.value === itemDom.getAttribute('value'))) {
-        itemDom.classList.add('list-group-item-primary')
-      } else {
-        itemDom.classList.remove('list-group-item-primary')
-      }
-
-      // if this item is hovered
-      if (i === this.$container.$root.$store.hoveredItemIndex) {
-        itemDom.classList.add('hover')
-      } else {
-        itemDom.classList.remove('hover')
-      }
+    this.$optionItems.forEach((itemDom) => {
+      itemDom.render()
     })
   }
 
