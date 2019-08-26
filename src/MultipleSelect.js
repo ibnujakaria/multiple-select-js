@@ -5,7 +5,6 @@ import './scss/multiple-select.scss'
 var selectMultipleContainerId = 0
 
 class MultipleSelect {
-
   
   constructor(elId, options) {
     selectMultipleContainerId++
@@ -49,6 +48,14 @@ class MultipleSelect {
     observer.observe(this.$el, { attributes: true, childList: true });
   }
 
+  /**
+   * Creating `<div>` for root element right after the `<select>` element.
+   * And then hide the `<select>` element.
+   *
+   * @param {*} elId
+   * @returns {*}
+   * @memberof MultipleSelect
+   */
   _buildRootElement (elId) {
     let select = document.querySelector(elId)
     let root = document.createElement('div')
@@ -58,8 +65,12 @@ class MultipleSelect {
     root.setAttribute('id', `multiple-select-container-${selectMultipleContainerId}`)
     root.style.position = 'relative'
     
-    select.querySelectorAll('option:not([disabled])').forEach(option => {
-      items.push({ value: option.value, label: option.innerText })
+    select.querySelectorAll('option').forEach(option => {
+      items.push({
+        value: option.value,
+        label: option.innerText,
+        disabled: option.disabled
+      })
     })
 
     // get the already selected items

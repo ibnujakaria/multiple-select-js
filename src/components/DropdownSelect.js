@@ -27,7 +27,6 @@ class DropdownSelect {
     })
 
     this.$container.$root.$store.on('selectedItemsChange', () => {
-      // this._buildOptionItems()
       this._rerenderOptionsItems()
     })
 
@@ -65,10 +64,17 @@ class DropdownSelect {
 
     this.filteredItems.forEach((item, i) => {
       let itemDom = document.createElement('li')
+
+      
       itemDom.classList.add(
         'list-group-item', 'd-flex', 'flex-row',
         'justify-content-between', 'p-2', 'rounded-0'
       )
+      
+      if (item.disabled) {
+        itemDom.classList.add('disabled')
+      }
+
       itemDom.setAttribute('value', item.value)
       itemDom.innerText = item.label
 
@@ -98,6 +104,7 @@ class DropdownSelect {
 
         store.selectedItems = selectedItems
         this._rerenderOptionsItems()
+        this.$input.focus()
       })
 
       this.$optionItems.push(itemDom)

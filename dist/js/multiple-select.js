@@ -568,7 +568,6 @@ __webpack_require__.r(__webpack_exports__);
 var selectMultipleContainerId = 0
 
 class MultipleSelect {
-
   
   constructor(elId, options) {
     selectMultipleContainerId++
@@ -612,6 +611,14 @@ class MultipleSelect {
     observer.observe(this.$el, { attributes: true, childList: true });
   }
 
+  /**
+   * Creating `<div>` for root element right after the `<select>` element.
+   * And then hide the `<select>` element.
+   *
+   * @param {*} elId
+   * @returns {*}
+   * @memberof MultipleSelect
+   */
   _buildRootElement (elId) {
     let select = document.querySelector(elId)
     let root = document.createElement('div')
@@ -621,8 +628,12 @@ class MultipleSelect {
     root.setAttribute('id', `multiple-select-container-${selectMultipleContainerId}`)
     root.style.position = 'relative'
     
-    select.querySelectorAll('option:not([disabled])').forEach(option => {
-      items.push({ value: option.value, label: option.innerText })
+    select.querySelectorAll('option').forEach(option => {
+      items.push({
+        value: option.value,
+        label: option.innerText,
+        disabled: option.disabled
+      })
     })
 
     // get the already selected items
@@ -763,7 +774,6 @@ class DropdownSelect {
     })
 
     this.$container.$root.$store.on('selectedItemsChange', () => {
-      // this._buildOptionItems()
       this._rerenderOptionsItems()
     })
 
@@ -801,10 +811,17 @@ class DropdownSelect {
 
     this.filteredItems.forEach((item, i) => {
       let itemDom = document.createElement('li')
+
+      
       itemDom.classList.add(
         'list-group-item', 'd-flex', 'flex-row',
         'justify-content-between', 'p-2', 'rounded-0'
       )
+      
+      if (item.disabled) {
+        itemDom.classList.add('disabled')
+      }
+
       itemDom.setAttribute('value', item.value)
       itemDom.innerText = item.label
 
@@ -834,6 +851,7 @@ class DropdownSelect {
 
         store.selectedItems = selectedItems
         this._rerenderOptionsItems()
+        this.$input.focus()
       })
 
       this.$optionItems.push(itemDom)
