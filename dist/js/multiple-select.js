@@ -1223,13 +1223,14 @@ class Store extends events__WEBPACK_IMPORTED_MODULE_0___default.a {
    * @memberof Store
    */
   get keyword () {
-    return this._keyword || null
+    return this._keyword || ''
   }
 
   set keyword (keyword) {
-    if (this._keyword !== keyword.trim()) {
+    if (this.keyword !== keyword.trim()) {
       this._keyword = keyword.trim()
       this._hoveredItemIndex = null
+      console.log('keywordChange')
       this.emit('keywordChange', keyword)
     }
   }
