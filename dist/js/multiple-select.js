@@ -631,14 +631,14 @@ class MultipleSelect {
     select.querySelectorAll('option').forEach(option => {
       items.push({
         value: option.value,
-        label: option.innerText,
+        label: option.innerText.trim(),
         disabled: option.disabled
       })
     })
 
     // get the already selected items
     select.querySelectorAll('option[selected]').forEach(option => {
-      selectedItems.push({ value: option.value, label: option.innerText })
+      selectedItems.push({ value: option.value, label: option.innerText.trim() })
     })
 
     let isMultiple = select.multiple
@@ -655,6 +655,7 @@ class MultipleSelect {
 window.MultipleSelect = MultipleSelect
 
 /* harmony default export */ __webpack_exports__["default"] = (MultipleSelect);
+
 
 /***/ }),
 
