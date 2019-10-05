@@ -1,6 +1,6 @@
 {
   "name": "multiple-select-js",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Simple js library for html5 multiple select",
   "main": "src/MultipleSelect.js",
   "scripts": {
