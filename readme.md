@@ -1,6 +1,6 @@
 [![](https://img.shields.io/npm/v/multiple-select-js)](https://www.npmjs.com/package/multiple-select-js)
 [![](https://img.shields.io/npm/dt/multiple-select-js)](https://www.npmjs.com/package/multiple-select-js)
-[![](https://img.shields.io/jsdelivr/npm/hm/multiple-select-js)](https://www.npmjs.com/package/multiple-select-js)
+[![](https://img.shields.io/jsdelivr/npm/hm/multiple-select-js)](https://www.jsdelivr.com/package/npm/multiple-select-js)
 [![](https://img.shields.io/github/size/ibnujakaria/multiple-select-js/dist/js/multiple-select.js)]()
 [![](https://img.shields.io/github/release-date/ibnujakaria/multiple-select-js)](https://github.com/ibnujakaria/multiple-select-js/)
 [![](https://img.shields.io/npm/l/multiple-select-js)](https://www.npmjs.com/package/multiple-select-js)
