@@ -7,7 +7,7 @@
 
 # Multiple Select 
 
-A simple javascript library for multiple select component that supports Bootstrap 4 natively.
+A simple javascript (non jQuery) library for multiple select component that supports Bootstrap 4 natively.
 
 ## Installation
 

@@ -1,7 +1,7 @@
 {
   "name": "multiple-select-js",
   "version": "1.2.6",
-  "description": "Simple js library for html5 multiple select",
+  "description": "A simple javascript (non jQuery) library for multiple select component that supports Bootstrap 4 natively.",
   "main": "src/MultipleSelect.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
