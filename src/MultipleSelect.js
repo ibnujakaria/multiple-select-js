@@ -40,7 +40,14 @@ class MultipleSelect {
         this.$select.value = ''
       }
 
-      this.$select.onchange()
+      const changeEvent = document.createEvent('HTMLEvents')
+      changeEvent.initEvent('change', true, true)
+
+      const inputEvent = document.createEvent('HTMLEvents')
+      inputEvent.initEvent('input', true, true)
+      
+      this.$select.dispatchEvent(changeEvent)
+      this.$select.dispatchEvent(inputEvent)
     })
 
     // when the container is done rendered, the dropdown
