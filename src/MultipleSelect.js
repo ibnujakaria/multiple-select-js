@@ -35,6 +35,12 @@ class MultipleSelect {
           option.removeAttribute('selected')
         }
       })
+
+      if (selectedItems.length < 1) {
+        this.$select.value = ''
+      }
+
+      this.$select.onchange()
     })
 
     // when the container is done rendered, the dropdown
