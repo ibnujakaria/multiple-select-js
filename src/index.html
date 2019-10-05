@@ -25,7 +25,7 @@
         </div>
         <div class="form-group">
           <label for="select-language">Single Select</label>
-          <select id="select-language">
+          <select id="select-language" onchange="console.log(this.value)">
             <option value="php">PHP</option>
             <option value="javascript">Javascript</option>
             <option value="python">Python</option>
@@ -40,6 +40,12 @@
             <option value="python">Python</option>
             <option value="kotlin" disabled>Kotlin</option>
             <option value="java">Java</option>
+            <option value="c++">C++</option>
+            <option value="c#">C#</option>
+            <option value="go">Go</option>
+            <option value="scala">Scala</option>
+            <option value="typescript">Typescript</option>
+            <option value="nodejs">Nodejs</option>
           </select>
         </div>
       </form>
