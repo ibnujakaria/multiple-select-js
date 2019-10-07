@@ -641,7 +641,7 @@ class MultipleSelect {
     root.setAttribute('id', `multiple-select-container-${selectMultipleContainerId}`)
     root.style.position = 'relative'
     
-    select.querySelectorAll('option').forEach(option => {
+    Array.from(select.options).forEach(option => {
       items.push({
         value: option.value,
         label: option.innerText.trim(),
@@ -650,14 +650,14 @@ class MultipleSelect {
     })
 
     // get the already selected items
-    select.querySelectorAll('option[selected]').forEach(option => {
+    Array.from(select.selectedOptions).forEach(option => {
       selectedItems.push({ value: option.value, label: option.innerText.trim() })
     })
 
-    let isMultiple = select.multiple
-    
     select.insertAdjacentElement('afterend', root)
     select.hidden = true
+    
+    const isMultiple = select.multiple
 
     return {
       select, el: root, isMultiple, items, selectedItems
