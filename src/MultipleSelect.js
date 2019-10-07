@@ -91,10 +91,39 @@ class MultipleSelect {
       selectedItems.push({ value: option.value, label: option.innerText.trim() })
     })
 
+    // add event listener when <select> element changed via js
+    select.addEventListener('change', e => {
+      let values = Array.from(select.selectedOptions).map(el => el.value)
+      let selectedItems = this.$store.selectedItems.map(item => item.value)
+      let isTheSameLength = values.length === selectedItems.length
+
+      function isTheSameComponents () {
+        let found = true
+
+        console.log({ values, selectedItems })
+        values.forEach(value => {
+          if (!selectedItems.find(item => item === value)) {
+            found = false
+            return
+          }
+        })
+
+        return found
+      }
+
+      if (!isTheSameLength || !isTheSameComponents()) {
+        // console.log('changed through js', values, selectedItems)
+        this.$store.selectedItems = this.$store.items.filter(item => {
+          return values.find(value => value === item.value)
+        })
+      }
+    })
+
     select.insertAdjacentElement('afterend', root)
     select.hidden = true
     
-    const isMultiple = select.multiple
+
+    let isMultiple = select.multiple
 
     return {
       select, el: root, isMultiple, items, selectedItems
